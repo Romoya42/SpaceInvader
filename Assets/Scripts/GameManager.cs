@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     public Character character;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
+        character = FindFirstObjectByType<Character>();
         score = 0;
 
     }
@@ -22,16 +23,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void IncreementScore()
+    void IncreementScore(int value)
     {
 
-        score = score++;
+        score = score+value;
         textScore.text = score.ToString();
     }
 
     void ButtonStart()
     {
-        print("start");
+        character.SetActive(true);
 
     }
 }
