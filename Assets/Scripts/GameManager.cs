@@ -4,35 +4,88 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Button StartButton;
+    public int listEnemy;
     public TextMeshProUGUI textScore;
-    private int score = 0;
-    public Character character;
+    private int _score = 0;
+    public Player player;
+    public Enemy enemy;
+    public Button _start;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    float _spawnEnemy;
+
+    private float time = 0f;
+    private float timer; 
+    private bool isTimerRunning = false; 
+
+    
+    void Start()
     {
-        character = FindFirstObjectByType<Character>();
-        score = 0;
-
+        //enemy= FindFirstObjectByType<Enemy>();
+        //_start=FindFirstObjectByType<Start>();
+        //player = FindFirstObjectByType<Player>();
+        _score = 0;
+        _start.gameObject.SetActive(true);
+        _start.onClick.AddListener(ButtonStart);
     }
 
-    // Update is called once per frame
+    
+
+
     void Update()
     {
+        if (isTimerRunning)
+        {
+            time += Time.deltaTime;
+            if (timer >= timer)
+            {   
+                VagueEnemy();
+          
+                isTimerRunning = false;
+                time = 0f;
+            }
+        }
 
     }
 
     void IncreementScore(int value)
     {
 
-        score = score+value;
-        textScore.text = score.ToString();
+        _score = _score+value;
+        textScore.text = _score.ToString();
     }
 
     void ButtonStart()
     {
-        character.SetActive(true);
-
+        player.gameObject.SetActive(true);
+        _start.gameObject.SetActive(false);
+        StartTimer(2);
     }
+
+    public void StartTimer(float timer)
+    {
+        isTimerRunning = true;
+        time = 0f; 
+    }
+
+    public void VagueEnemy()
+    {
+        for (int i = 0; i < listEnemy; i++)
+        {
+            var newenemy = Instantiate(enemy);
+            
+            newenemy.transform.position = new Vector2(_spawnEnemy,5.4f);
+            newenemy.transform.rotation = transform.rotation;
+
+            //changer ça pour que ça spawn plus loin avec nouvelle variable
+            if (_spawnEnemy < 0){
+            _spawnEnemy= _spawnEnemy+1;
+            }
+            else  _spawnEnemy= _spawnEnemy-1;
+            
+            //faire se deplacer les enemy vers le bas
+
+            //demarrer un nouvelle vague avec un timer
+        }
+    }
+
 }
