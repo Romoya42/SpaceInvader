@@ -7,17 +7,21 @@ public class Character : MonoBehaviour
     public float movementDampening = 0.05f;
 
     public Projectile _projectile;
-    private Rigidbody2D _rigidBody;
+    protected Rigidbody2D _rigidBody;
     protected float _moveDirection = 0f;
-    private Vector3 _velocity = Vector3.zero;
-    private GameManager _gameManager;
-    
-    
+    protected Vector3 _velocity = Vector3.zero;
+    protected GameManager _gameManager;
 
-    
+    public float _MoveDirection
+    {
+        get { return _moveDirection; }
+
+    }
+
+
     private void Awake()
     {
-        _projectile= FindFirstObjectByType<Projectile>();
+        
         _rigidBody = GetComponent<Rigidbody2D>();
         _gameManager = FindFirstObjectByType<GameManager>();
         

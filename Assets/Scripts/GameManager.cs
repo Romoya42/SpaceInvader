@@ -1,9 +1,11 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public int[] listVague;
     public int listEnemy;
     public TextMeshProUGUI textScore;
     private int _score = 0;
@@ -11,11 +13,11 @@ public class GameManager : MonoBehaviour
     public Enemy enemy;
     public Button _start;
 
-    float _spawnEnemy;
+    private int Life;
 
-    private float time = 0f;
-    private float timer; 
-    private bool isTimerRunning = false; 
+    public float time = 0f;
+    public float timer; 
+    public bool isTimerRunning = false; 
 
     
     void Start()
@@ -35,12 +37,15 @@ public class GameManager : MonoBehaviour
     {
         if (isTimerRunning)
         {
+            
             time += Time.deltaTime;
-            if (timer >= timer)
-            {   
-                VagueEnemy();
-          
+            if (time >= timer)
+            {
                 isTimerRunning = false;
+                VagueEnemy();
+                
+          
+                
                 time = 0f;
             }
         }
@@ -61,31 +66,35 @@ public class GameManager : MonoBehaviour
         StartTimer(2);
     }
 
-    public void StartTimer(float timer)
+    public void StartTimer(float chrono)
     {
+        timer = chrono;
         isTimerRunning = true;
-        time = 0f; 
     }
 
     public void VagueEnemy()
     {
+        
+        float _spawnEnemy= Random.Range(-8.5f, 8.5f);
+        float _positionX = _spawnEnemy;
+        print(_spawnEnemy);
         for (int i = 0; i < listEnemy; i++)
         {
+            
             var newenemy = Instantiate(enemy);
             
             newenemy.transform.position = new Vector2(_spawnEnemy,5.4f);
+             
             newenemy.transform.rotation = transform.rotation;
-
-            //changer ça pour que ça spawn plus loin avec nouvelle variable
-            if (_spawnEnemy < 0){
+            
+            if (_positionX < 0){
             _spawnEnemy= _spawnEnemy+1;
             }
             else  _spawnEnemy= _spawnEnemy-1;
-            
-            //faire se deplacer les enemy vers le bas
-
-            //demarrer un nouvelle vague avec un timer
         }
+        StartTimer(Random.Range(5f, 10f));
+            
+        
     }
 
 }
