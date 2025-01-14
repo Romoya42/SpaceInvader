@@ -38,17 +38,28 @@ public class Enemy : Character
             
         }
 
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Destroy(this.gameObject);
-
-        }
+        
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {   
             _moveDirection = _moveDirection * -1f;
+
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                
+                _vie--;
+                if (_vie <= 0) // Si la vie de l'ennemi tombe à 0 ou moins
+                {
+                    Destroy(this.gameObject); // Détruire l'ennemi
+                }
+            }
+    }
+
+    public void EndGame()
+    {
+        Destroy(this.gameObject);
     }
 
 

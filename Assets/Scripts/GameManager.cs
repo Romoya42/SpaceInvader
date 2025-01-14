@@ -7,17 +7,28 @@ public class GameManager : MonoBehaviour
 {
     public int[] listVague;
     public int listEnemy;
+
     public TextMeshProUGUI textScore;
+    public TextMeshProUGUI texthealth;
+    public TextMeshProUGUI texttemp;
     private int _score = 0;
     public Player player;
     public Enemy enemy;
     public Button _start;
 
-    private int Life;
+    public int _currentHealth;
 
-    public float time = 0f;
+    float time = 0f;
     public float timer; 
+
+    float time2 = 0f;
+    float timer2=2; 
+
     public bool isTimerRunning = false; 
+    private bool playing=false;
+
+    public bool combo=false;
+    public int multipleCombo=0;
 
     
     void Start()
@@ -28,6 +39,8 @@ public class GameManager : MonoBehaviour
         _score = 0;
         _start.gameObject.SetActive(true);
         _start.onClick.AddListener(ButtonStart);
+        texthealth.text = "Health: " + _currentHealth.ToString();
+        textScore.text = "Score: " + _score.ToString();
     }
 
     
@@ -35,39 +48,47 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isTimerRunning)
+        
+        time2 += Time.deltaTime;
+        if (time2 >= timer2)
         {
+            multipleCombo=0;
+                
+            combo=false; 
             
-            time += Time.deltaTime;
-            if (time >= timer)
-            {
-                isTimerRunning = false;
-                VagueEnemy();
-                
-          
-                
-                time = 0f;
-            }
-        }
+            print("in");
 
+            time2 = 0f;
+        }
     }
 
-    void IncreementScore(int value)
+    public void IncreementScore(int value)
     {
+        
+        if (combo){
+            time2 = 0f;
+            print("out");
+            multipleCombo++;
+            _score = _score+(value * multipleCombo) ;
+            textScore.text = "Score: " + _score.ToString();
 
-        _score = _score+value;
-        textScore.text = _score.ToString();
+        }
+        
+        
     }
 
     void ButtonStart()
     {
         player.gameObject.SetActive(true);
         _start.gameObject.SetActive(false);
+        playing=true;
         StartTimer(2);
+
     }
 
     public void StartTimer(float chrono)
     {
+        
         timer = chrono;
         isTimerRunning = true;
     }
@@ -77,7 +98,9 @@ public class GameManager : MonoBehaviour
         
         float _spawnEnemy= Random.Range(-8.5f, 8.5f);
         float _positionX = _spawnEnemy;
-        print(_spawnEnemy);
+        listEnemy=Random.Range(1, 5);
+
+
         for (int i = 0; i < listEnemy; i++)
         {
             
@@ -92,9 +115,42 @@ public class GameManager : MonoBehaviour
             }
             else  _spawnEnemy= _spawnEnemy-1;
         }
-        StartTimer(Random.Range(5f, 10f));
+
+        if (listVague.Length > 0  ){
+            for (int i = 0; i < listVague.Length; i++)
+            StartTimer(listVague[i]);
+            
+        }
+        else StartTimer(Random.Range(5f, 10f));
             
         
+    }
+
+    public void UpdateHealth(int health)
+    {
+
+        _currentHealth += health;
+        texthealth.text = "Health: " + _currentHealth.ToString();
+        if(_currentHealth <= 0)
+        {
+            PlayerDied();
+            
+        }
+    }
+
+    public void PlayerDied(){
+        player.gameObject.SetActive(false);
+        _start.gameObject.SetActive(true);
+        playing=false;
+        Enemy[] dead = FindObjectsOfType<Enemy>();
+
+        // Parcourir et détruire chaque Enemy trouvé
+        foreach (Enemy enemy in dead)
+        {
+            Destroy(enemy.gameObject);
+        }
+
+
     }
 
 }

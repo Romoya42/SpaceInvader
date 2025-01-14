@@ -9,6 +9,7 @@ public class Player : Character
     void Start()
     {
         movementSpeed = 25f;
+        _gameManager._currentHealth=_vie;
         this.gameObject.SetActive(false);
     }
 
@@ -18,5 +19,16 @@ public class Player : Character
        _moveDirection = Input.GetAxis("Horizontal"); 
        UpdateMovement();
        Shoot(shootspeed);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {   
+            
+            
+            if (collision.gameObject.CompareTag("Enemy"))
+        {
+            _gameManager.combo=false;
+            _gameManager.UpdateHealth(-1);
+        }
     }
 }

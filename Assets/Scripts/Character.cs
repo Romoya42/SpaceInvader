@@ -11,12 +11,8 @@ public class Character : MonoBehaviour
     protected float _moveDirection = 0f;
     protected Vector3 _velocity = Vector3.zero;
     protected GameManager _gameManager;
-
-    public float _MoveDirection
-    {
-        get { return _moveDirection; }
-
-    }
+    public int _vie;
+    
 
 
     private void Awake()
@@ -24,6 +20,7 @@ public class Character : MonoBehaviour
         
         _rigidBody = GetComponent<Rigidbody2D>();
         _gameManager = FindFirstObjectByType<GameManager>();
+        
         
     }
 
@@ -48,7 +45,7 @@ public class Character : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             
-            print("shoot");
+            
             var newProjectile = Instantiate(_projectile);
             newProjectile.vitesse=vitesse;
             newProjectile.transform.position = transform.position;
@@ -57,6 +54,10 @@ public class Character : MonoBehaviour
         
 
     }
+
+    
+
+    
 
 
 

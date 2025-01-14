@@ -105,7 +105,7 @@ MonoBehaviour:
   movementSpeed: 0
   movementDampening: 0.05
   _projectile: {fileID: 0}
-  _moveDirection: 0
+  _vie: 1
   shootspeed: 3
 --- !u!50 &3116207452435823114
 Rigidbody2D:
