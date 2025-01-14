@@ -21,14 +21,5 @@ public class Player : Character
        Shoot(shootspeed);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {   
-            
-            
-            if (collision.gameObject.CompareTag("Enemy"))
-        {
-            _gameManager.combo=false;
-            _gameManager.UpdateHealth(-1);
-        }
-    }
+    
 }

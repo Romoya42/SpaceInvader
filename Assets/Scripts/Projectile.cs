@@ -8,9 +8,7 @@ public class Projectile : MonoBehaviour
     public float vitesse;
     private GameManager _gameManager;
 
-    float time = 0f;
-    [SerializeField]float timer=7; 
-    // Update is called once per frame
+        
 
     private void Awake()
     {
@@ -49,16 +47,16 @@ public class Projectile : MonoBehaviour
 
             Enemy enemyScript = collision.gameObject.GetComponent<Enemy>();
         
-            if (enemyScript != null) // Vérifie si le script est trouvé
+            if (enemyScript != null) 
             {
-                enemyScript._vie -= 1; // Modifie la variable _vie dans le script Enemy
+                enemyScript._vie -= 1; 
         
-                if (enemyScript._vie <= 0) // Si la vie de l'ennemi tombe à 0 ou moins
+                if (enemyScript._vie <= 0) 
                 {
-                    time = 0f;
-                    _gameManager.IncreementScore(100);
+                    
+                    _gameManager.IncreementScore(50);
                     _gameManager.combo=true;
-                    Destroy(collision.gameObject); // Détruire l'ennemi
+                    Destroy(collision.gameObject); 
                 }
             }
             
