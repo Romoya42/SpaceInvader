@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
 
             newenemy.transform.position = new Vector2(_spawnEnemy,5.4f);
              
-            newenemy.transform.rotation = transform.rotation;
+            
             
             if (_positionX < 0){
             _spawnEnemy= _spawnEnemy+1;
