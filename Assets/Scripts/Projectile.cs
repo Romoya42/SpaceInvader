@@ -23,9 +23,7 @@ public class Projectile : MonoBehaviour
     {
         transform.Translate(new Vector2(0, vitesse * Time.deltaTime));
 
-        
-            
-        }
+    }
     
     
 
